@@ -1,0 +1,68 @@
+% Define matrix size
+matrix_size = 300;
+cube_size = 10;
+
+% Initialize correlation matrix
+corr_matrix = ones(matrix_size) * 0.1;
+
+% Set diagonal values
+corr_matrix(1:matrix_size+1:end) = 0.3;
+
+% Set cube diagonal values
+for i = 1:cube_size:matrix_size
+    corr_matrix(i:min(i+cube_size-1, matrix_size), i:min(i+cube_size-1, matrix_size)) = 0.2;
+end
+
+% Generate random neuron positions
+neuron_positions = rand(matrix_size, 2);
+
+% Display the correlation matrix using imagesc
+figure;
+imagesc(corr_matrix);
+
+% Remove title
+title([]);
+
+% Remove color bar
+colorbar('off');
+
+% Remove axes, ticks, and box
+axis off;
+set(gca, 'xtick', [], 'ytick', []);
+box off;
+
+% Add red grid
+grid on;
+set(gca, 'GridColor', 'k');
+
+% Enhance visibility of diagonal
+hold on;
+for i = 1:matrix_size
+    plot([i-0.5, i+0.5], [i-0.5, i+0.5], 'k-', 'LineWidth', 2); % Black diagonal line
+end
+
+% Add red squares around cube diagonal squares
+for i = 1:cube_size:matrix_size
+    rectangle('Position',[i-0.5, i-0.5, cube_size, cube_size],'EdgeColor','r','LineWidth',1.5);
+end
+
+% Add green squares around the rest of the population squares
+for i = 1:cube_size:matrix_size
+    for j = 1:cube_size:matrix_size
+        if i ~= j
+            rectangle('Position',[j-0.5, i-0.5, cube_size, cube_size],'EdgeColor','g','LineWidth',1.5);
+        end
+    end
+end
+
+% Plot neurons
+scatter(neuron_positions(:,1), neuron_positions(:,2), 20, 'filled');
+
+% Draw lines between correlated neurons
+for i = 1:matrix_size
+    for j = (i+1):matrix_size
+        if corr_matrix(i, j) > 0
+            line([neuron_positions(i,1), neuron_positions(j,1)], [neuron_positions(i,2), neuron_positions(j,2)], 'Color', 'b');
+        end
+    end
+end

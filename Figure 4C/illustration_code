@@ -1,0 +1,69 @@
+% Define the size of the space
+spaceWidth = 3;
+spaceHeight = 3;
+
+% Define the number of squares
+numRows = 3;
+numCols = 3;
+
+% Calculate the size of each square
+squareWidth = spaceWidth / numCols;
+squareHeight = spaceHeight / numRows;
+
+% Number of dots in each square
+numDots = 3;
+
+% Set minimum distance from the border
+minDistanceFromBorder = 0.3;
+
+% Set minimum distance between dots
+minDistanceBetweenDots = 0.2;
+
+% Create a figure
+figure;
+hold on;
+
+% Plot the squares and connect dots in the last left square with green lines
+for i = 1:numRows
+    for j = 1:numCols
+        % Draw the square
+        rectangle('Position', [(j-1)*squareWidth, spaceHeight - i*squareHeight, squareWidth, squareHeight], 'EdgeColor', 'k');
+        
+        % Generate random positions for dots within the square
+        x = [];
+        y = [];
+        for k = 1:numDots
+            % Generate random positions for dots within the square
+            newX = (j-1)*squareWidth + minDistanceFromBorder + (squareWidth - 2*minDistanceFromBorder) * rand;
+            newY = spaceHeight - (i-1)*squareHeight - minDistanceFromBorder - (squareHeight - 2*minDistanceFromBorder) * rand;
+            
+            % Ensure minimum distance between dots
+            while any((newX - x).^2 + (newY - y).^2 < minDistanceBetweenDots^2)
+                newX = (j-1)*squareWidth + minDistanceFromBorder + (squareWidth - 2*minDistanceFromBorder) * rand;
+                newY = spaceHeight - (i-1)*squareHeight - minDistanceFromBorder - (squareHeight - 2*minDistanceFromBorder) * rand;
+            end
+            
+            x = [x, newX];
+            y = [y, newY];
+        end
+        
+        % Plot the blue dots
+        scatter(x, y, 50, 'b', 'filled');
+        
+        % If it is the last left square
+        if j == 1 && i == numRows
+            % Connect dots in the last left square with green lines
+            for k = 1:numDots
+                plot([x(k), x(mod(k,numDots)+1)], [y(k), y(mod(k,numDots)+1)], 'g', 'LineWidth', 2);
+            end
+        end
+    end
+end
+
+% Remove axis, ticks, numbers, and title
+axis off;
+axis equal;
+title('');
+
+% Turn off hold
+hold off;
