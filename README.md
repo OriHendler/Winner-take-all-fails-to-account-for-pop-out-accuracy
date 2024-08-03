@@ -2,6 +2,15 @@
 
 This repository contains detailed simulations, results, and visual presentations, each organized by figure panel as specified in the associated research paper.
 
+## DOI
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13202914.svg)](https://doi.org/10.5281/zenodo.13202914)
+
+## Repository Link
+You can access the repository at: [https://github.com/OriHendler/Winner-take-all-fails-to-account-for-pop-out-accuracy](https://github.com/OriHendler/Winner-take-all-fails-to-account-for-pop-out-accuracy)
+
+## Source Code and Data Availability
+The source code and all of the data used to produce the results and analyses presented in this manuscript are available on a GitHub repository at [https://github.com/OriHendler/Winner-take-all-fails-to-account-for-pop-out-accuracy](https://github.com/OriHendler/Winner-take-all-fails-to-account-for-pop-out-accuracy). We have also used Zenodo to assign a DOI to the repository: [10.5281/zenodo.13202914](https://doi.org/10.5281/zenodo.13202914).
+
 ## Folder Structure
 Each subfolder is dedicated to a different figure from the research paper, for instance, "Figure 1A." Below is a breakdown of the typical contents of these subfolders:
 
