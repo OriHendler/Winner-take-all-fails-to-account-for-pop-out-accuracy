@@ -1,0 +1,82 @@
+%This code will produce figure 2 pannel H
+clear all
+close all
+
+GrphicSettings 
+
+%Load data for plot
+load('C:\Users\orihe\OneDrive\שולחן העבודה\מאמר ראשון מוכן לשליחה\PLOS computational Biology\Peer review A\Figure 4HV2 edited for 2I2AFC\‏‏Network with correlations Hetrogeneous varified codes\data_analysis\POPM1010N101000Crange-date-24_12_06_18_27_12ExpQMeanRange.MAT');
+
+data_saver_mean_and_SEM(:,1)= mean_correct_readout_saver_all_realizations_matrix(:,3);
+data_saver_mean_and_SEM(:,2)= mean_correct_readout_saver_all_realizations_matrix(:,4);
+data_saver_mean_and_SEM(:,3)= mean_correct_readout_saver_all_realizations_matrix(:,5);
+data_saver_mean_and_SEM(:,4)= mean_correct_readout_saver_all_realizations_matrix(:,6);
+data_saver_mean_and_SEM(:,5)= mean_correct_readout_saver_all_realizations_matrix(:,2);
+% Number of realizations
+n_realizations = size(correct_readout_saver_all_realizations_matrix, 3);
+
+% Standard deviation across the third dimension for the second column
+std_vals = std(correct_readout_saver_all_realizations_matrix(:,2,:), 0, 3);
+
+% Compute the standard error of the mean
+data_saver_mean_and_SEM(:,6) = std_vals / sqrt(n_realizations);
+
+%%
+skip_size = 3;
+number_of_skips = 4;
+number_of_blocks = 3;
+block_size = 15;
+number_of_rounds = 3;
+
+
+for block = 1:number_of_blocks
+    for round = 1:number_of_rounds
+        % Define start and end indices based on block and round
+        start_idx = round + (block - 1) * block_size;
+        end_idx = start_idx + skip_size * (number_of_skips);
+        % Extract values from column 2 with skipping
+        extracted_values_N_Pop = data_saver_mean_and_SEM(start_idx:skip_size:end_idx, 2);
+        % Extract values from column 5 with skipping
+        extracted_values_Pc_Pop = data_saver_mean_and_SEM(start_idx:skip_size:end_idx, 5);
+        % Extract values from column 6 with skipping
+        extracted_values_Pc_SEM_Pop = data_saver_mean_and_SEM(start_idx:skip_size:end_idx, 6);
+
+        % Assign to order_N_axis
+        order_N_axis(number_of_rounds * (block - 1) + round, :) = extracted_values_N_Pop;
+        % Assign to order_Pc_axis
+        order_Pc_axis(number_of_rounds * (block - 1) + round, :) = extracted_values_Pc_Pop;
+        % Assign to order_Pc_axis
+        order_Pc_SEM_axis(number_of_rounds * (block - 1) + round, :) = extracted_values_Pc_SEM_Pop;
+    end
+end
+
+
+color_order=[0 0 1;0 0 0.7;0 0 0.5;1 0 0;0.7 0 0;0.5 0 0;0 1 0;0 0.7 0;0 0.5 0]
+figure(1)
+for idx=1:9
+scatter(order_N_axis(idx,:),order_Pc_axis(idx,:) ...
+    ,15,'MarkerFaceColor', 'none' , 'LineWidth',1, 'MarkerEdgeColor',color_order(idx,:) )
+hold on;
+
+% Add error bars
+errorbar(data_saver_mean_and_SEM(1:skip_size,2), data_saver_mean_and_SEM(order((idx-1)*skip_size+1:skip_size*idx),5), data_saver_mean_and_SEM(order((idx-1)*skip_size+1:skip_size*idx),6)', 'LineStyle', 'none', 'Color',color_order(idx,:), 'LineWidth',1); % 'r' is the color red, you can change it to your preferred color
+hold on
+end
+
+hold off
+xlim([0 100]);
+ylim([0 1]);
+xticks([0:50:100]);
+yticks([0:0.5:1]);
+ylabel('Readout Accuracy')
+xlabel('Number of Distractors')
+box off
+
+%%
+
+ 
+% saveas(figure(1),'FIGURE4PannelHwithError','jpg');
+% saveas(figure(1),'FIGURE4PannelHwithError','fig');
+% saveas(figure(1),'FIGURE4PannelHwithError','tif');
+% exportgraphics(figure(1), 'FIGURE4PannelHwithError.pdf', 'ContentType', 'vector', 'Resolution', 600); % Adjust the resolution as needed
+
