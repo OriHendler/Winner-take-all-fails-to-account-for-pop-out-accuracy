@@ -34,16 +34,16 @@ ylabel('q')
 %%
 %The neuron with the maximal q value (secluding some first 
 %aunusual or noisy neurons) is neuron #21 in the original datasaet.
-Chosen_mean_FR_pop=16.5;
-Chosen_std_FR_pop=2;
-Chosen_mean_FR_uniform=6.8;
-Chosen_std_FR_uniform=2.2;
+Chosen_mean_FR_pop=mean(FR(21).Data(3,:));
+Chosen_std_FR_pop=std(FR(21).Data(3,:));
+Chosen_mean_FR_uniform=mean(FR(21).Data(2,:));
+Chosen_std_FR_uniform=std(FR(21).Data(2,:));
 
 figure(2)
 bar([1 2],[Chosen_mean_FR_uniform Chosen_mean_FR_pop],0.2,'b')
 hold on
 
-er = errorbar([1 2],[Chosen_mean_FR_uniform , Chosen_mean_FR_pop],[Chosen_std_FR_uniform , Chosen_std_FR_pop],[Chosen_std_FR_uniform , Chosen_std_FR_pop]);    
+er = errorbar([1 2],[Chosen_mean_FR_uniform , Chosen_mean_FR_pop],[Chosen_std_FR_uniform/2 , Chosen_std_FR_pop/2],[Chosen_std_FR_uniform/2 , Chosen_std_FR_pop/2]);    
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 er.LineWidth=1.5;
@@ -68,6 +68,6 @@ width=650;
 height=650;
 set(gcf,'position',[x0,y0,width,height])
 
-saveas(figure(2),'ConteuxalModulatedNeuronCat','jpg');
-saveas(figure(2),'ConteuxalModulatedNeuronCat','fig');
-saveas(figure(2),'ConteuxalModulatedNeuronCat','tif');
+saveas(figure(2),'ConteuxalModulatedNeuronFish','jpg');
+saveas(figure(2),'ConteuxalModulatedNeuronFish','fig');
+saveas(figure(2),'ConteuxalModulatedNeuronFish','tif');
